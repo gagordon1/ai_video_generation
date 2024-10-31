@@ -1,6 +1,9 @@
 from openai import OpenAI
 from dotenv import load_dotenv
 from constants import *
+import requests
+import uuid
+import os
 
 
 class ImageGenerator:
@@ -15,6 +18,33 @@ class ImageGenerator:
             prompt (str): text prompt to create an image from
         """
         raise NotImplementedError("Subclasses must implement this method")
+    
+class StabilityImageGenerator(ImageGenerator):
+    def __init__(self, test = False) -> None:
+        super().__init__(test)
+
+    def generate_image(self, prompt : str) -> str:
+        load_dotenv()
+        response = requests.post(
+            f"https://api.stability.ai/v2beta/stable-image/generate/ultra",
+            headers={
+                "authorization": "Bearer {}".format(os.getenv("STABILITY_API_KEY")),
+                "accept": "image/*"
+            },
+            files={"none": ''},
+            data={
+                "prompt": prompt,
+                "output_format": "png",
+            },
+         )
+        output_file = IMAGE_FILEPATH + str(uuid.uuid4()) + ".png"
+        if response.status_code == 200:
+            with open(output_file, 'wb') as file:
+                file.write(response.content)
+        else:
+            raise Exception(str(response.json()))
+        
+        return output_file
 
 class OpenAIImageGenerator(ImageGenerator):
     def __init__(self, test = False) -> None:
@@ -27,9 +57,9 @@ class OpenAIImageGenerator(ImageGenerator):
         load_dotenv()
         client = OpenAI()
         response = client.images.generate(
-            model="dall-e-2",
+            model="dall-e-3",
             prompt=prompt,
-            size="512x512",
+            size="1024x1024",
             quality="standard",
             n=1,
         )

@@ -72,4 +72,4 @@ class Story:
     
     @classmethod
     def from_json(cls, data):
-        return cls(scenes = [Scene.from_json(x) for x in data],id = data.get("id"))
+        return cls(scenes = [Scene.from_json(x) for x in data.get("scenes")],id = data.get("id"))

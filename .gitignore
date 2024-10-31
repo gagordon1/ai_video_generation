@@ -1,5 +1,10 @@
 # App specific
 .DS_Store
+google-cloud-sdk
+story_data/*
+images/
+narration_files/
+completed_videos/
 
 
 # Byte-compiled / optimized / DLL files

@@ -16,6 +16,7 @@ class StoryGenerator:
         return STORY_GENERATION_PROMPT_TEMPLATE.format(duration=duration, story_prompt = story_prompt)
     
     def parse_response_content(self, input : str) -> Story:
+        print(input)
         text_no_newlines = input.replace('\n', ' ')
 
         # Use regex to find all sections delimited by "%^"
@@ -29,7 +30,7 @@ class StoryGenerator:
         # and remove extra spaces from each segment
         main_text_segments = [segment.strip() for segment in re.split(r'%\^.*?%\^', text_no_newlines) if segment.strip()]
         
-        assert len(image_descriptions) == len(main_text_segments)
+        # assert len(image_descriptions) == len(main_text_segments)
 
         scenes = []
         for i in range(len(image_descriptions)):

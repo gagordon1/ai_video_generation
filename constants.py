@@ -10,8 +10,10 @@ STORY_GENERATION_PROMPT_TEMPLATE =  """Write a {duration} narrated story about {
                 Include complete context, and any essential story elements, so each image can be generated independently without prior knowledge of the story.
                 For example, structure image captions as:
                 “%^ An image of ...%^”
-                Use this format throughout the story to clearly describe each scene transition."""
+                Use this format throughout the story to clearly describe each scene transition. Ensure each story element has a caption following it."""
 
 STORY_DATA_FILEPATH = "story_data/"
+
+IMAGE_FILEPATH = "images/"
 
 NARRATION_FILEPATH = "narration_files/"
